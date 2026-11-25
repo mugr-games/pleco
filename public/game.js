@@ -356,6 +356,7 @@ async function showReveal(q, r) {
   $('rb-label').textContent = r.rank === 1
     ? `"${r.yourLabel}" — you think like the school!`
     : r.isNew ? `Nobody said "${r.yourLabel}" yet.` : `"${r.yourLabel}"`;
+  if (r.youTyped && !r.isNew) $('rb-label').textContent += ` (you typed "${r.youTyped}")`;
   $('rb-points').textContent = '+0';
 
   // Board header with the tier icon.
