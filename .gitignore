@@ -1,0 +1,9 @@
+node_modules/
+# crowd answers are runtime data, not source
+data/tallies.json
+data/tallies.json.tmp
+# generator logs
+data/generated/run.log
+# local tooling
+.claude/
+.env

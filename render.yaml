@@ -1,0 +1,24 @@
+# Render Blueprint for Pleco: https://render.com/docs/blueprint-spec
+# In Render: New + -> Blueprint -> pick this repo. Render will ask for NVIDIA_API_KEY (never commit it).
+services:
+  - type: web
+    name: pleco
+    runtime: node
+    plan: free
+    buildCommand: npm install --omit=dev
+    startCommand: node server.mjs
+    healthCheckPath: /api/status
+    envVars:
+      - key: NVIDIA_API_KEY
+        sync: false # entered in the Render dashboard, kept secret
+      - key: TRUST_PROXY
+        value: "1"
+      - key: NODE_VERSION
+        value: "22"
+    # The free plan's disk is wiped on every deploy and restart, so crowd tallies reset.
+    # To keep them, switch to a paid plan and uncomment this disk:
+    # disk:
+    #   name: pleco-data
+    #   mountPath: /var/data
+    #   sizeGB: 1
+    # and add an env var: PLECO_DATA_DIR=/var/data

@@ -1,0 +1,12 @@
+{
+  "name": "pleco",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Pleco - guess what the crowd would say.",
+  "scripts": {
+    "start": "node server.mjs",
+    "generate": "node tools/generate.mjs"
+  },
+  "engines": { "node": ">=20" }
+}

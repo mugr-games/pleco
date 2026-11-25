@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pleco — think like the school</title>
+  <meta name="description" content="A daily survey game: guess the answer most people would give.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="pleco.png">
+</head>
+<body>
+  <canvas id="sea" aria-hidden="true"></canvas>
+  <img id="swimmer" src="pleco.png" alt="" aria-hidden="true">
+
+  <main id="app">
+    <!-- HOME -->
+    <section id="screen-home" class="screen active">
+      <header class="logo">
+        <img id="logo-fish" src="pleco.png" alt="Pleco the fish" width="254" height="163">
+        <h1>PLECO</h1>
+        <p class="tagline">Think like the school.</p>
+      </header>
+
+      <div class="panel" id="daily-panel">
+        <div class="panel-title"><span>DAILY DIVE</span><span id="day-label" class="muted"></span></div>
+        <p class="lead">16 questions. Guess what <b>most people</b> would say.</p>
+        <div class="legend">
+          <img class="tier-icon" src="tiers/pleco.png" alt=""><span class="badge pleco">PLECO ×4</span><span class="muted">Common. Almost everyone agrees.</span>
+          <img class="tier-icon" src="tiers/schooler.png" alt=""><span class="badge schooler">SCHOOLER ×4</span><span class="muted">Uncommon. Most follow the crowd.</span>
+          <img class="tier-icon" src="tiers/reef-crab.png" alt=""><span class="badge reef">REEF ×4</span><span class="muted">Rare. A favourite, but close.</span>
+          <img class="tier-icon" src="tiers/deep-angler.png" alt=""><span class="badge deep">DEEP ×4</span><span class="muted">Epic. Answers are scattered.</span>
+        </div>
+        <div id="daily-action"></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-title"><span>PRACTICE</span><span class="muted">10 random questions</span></div>
+        <div id="categories" class="cat-grid"></div>
+      </div>
+
+      <details class="panel how">
+        <summary class="panel-title"><span>HOW TO PLAY</span><span class="muted">▼</span></summary>
+        <ul>
+          <li>Each question is a mini survey. There's no single "right" answer.</li>
+          <li>Type the answer you think the <b>crowd</b> gave the most.</li>
+          <li>Match the #1 answer for full points (Pleco 100, Schooler 125, Reef 150, Deep 175). Less popular answers score less.</li>
+          <li>Every answer you give joins the crowd, so the board keeps changing.</li>
+        </ul>
+      </details>
+      <p id="bank-status" class="foot muted"></p>
+    </section>
+
+    <!-- QUESTION -->
+    <section id="screen-play" class="screen">
+      <div class="hud">
+        <button class="btn small ghost" id="quit-btn" title="Back to menu">◀ MENU</button>
+        <div class="progress"><div id="progress-bar"></div></div>
+        <div class="score-box"><span id="hud-score">0</span><small>PTS</small></div>
+      </div>
+
+      <div class="panel question-panel">
+        <div class="q-meta">
+          <img id="q-tier-icon" class="tier-icon big" src="tiers/pleco.png" alt="">
+          <span id="q-type" class="badge"></span>
+          <span id="q-cat" class="chip"></span>
+          <span id="q-count" class="muted"></span>
+        </div>
+        <h2 id="q-text"></h2>
+
+        <form id="guess-form" autocomplete="off">
+          <input id="guess-input" maxlength="60" placeholder="What would most people say?" aria-label="Your answer" spellcheck="false">
+          <button class="btn" id="guess-btn" type="submit">GUESS</button>
+        </form>
+        <p id="guess-msg" class="msg" role="status" aria-live="polite"></p>
+
+        <div id="reveal" hidden>
+          <div id="result-banner" class="result-banner">
+            <div class="rb-icon"><img id="rb-tier" class="tier-anim" src="tiers/pleco.png" alt=""></div>
+            <div class="rb-main">
+              <div id="rb-rank" class="rb-rank"></div>
+              <div id="rb-label" class="rb-label"></div>
+            </div>
+            <div id="rb-points" class="rb-points">+0</div>
+          </div>
+          <div class="board-head">
+            <img id="bh-icon" class="tier-icon tier-anim" src="tiers/pleco.png" alt="">
+            <span id="bh-title" class="bh-title">PLECO BOARD</span>
+            <span class="muted bh-sub">what the crowd said</span>
+          </div>
+          <ol id="board" class="board"></ol>
+          <p id="crowd-note" class="muted small-note"></p>
+          <button class="btn wide" id="next-btn">NEXT ▶</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- END -->
+    <section id="screen-end" class="screen">
+      <div class="panel end-panel">
+        <div class="panel-title"><span id="end-title">DIVE COMPLETE</span><span id="end-day" class="muted"></span></div>
+        <div class="big-score"><span id="end-score">0</span><small>/ <span id="end-max">0</span></small></div>
+        <p id="end-rank" class="lead center end-rank"></p>
+        <div id="end-tiers" class="tier-summary"></div>
+        <div id="end-cards" class="end-cards"></div>
+        <div class="row">
+          <button class="btn" id="share-btn">COPY RESULT</button>
+          <button class="btn ghost" id="home-btn">MENU</button>
+        </div>
+        <p id="share-msg" class="msg center"></p>
+      </div>
+    </section>
+  </main>
+
+  <button id="mute-btn" class="btn small ghost mute" aria-label="Toggle sound" aria-pressed="false">🔊</button>
+  <div id="fx" aria-hidden="true"></div>
+  <script src="game.js" type="module"></script>
+</body>
+</html>
