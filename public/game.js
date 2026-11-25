@@ -481,8 +481,10 @@ async function finish() {
 async function copyShare(result, msgEl) {
   const head = result.mode === 'practice' ? `Pleco practice: ${result.name}` : `Pleco #${result.day}`;
   const rows = [];
-  for (let i = 0; i < result.marks.length; i += 5) rows.push(result.marks.slice(i, i + 5).join(''));
-  const text = `${head} 🐟 ${result.score}/${result.max}\n${rows.join('\n')}`;
+  // One row per Pleco -> Schooler -> Reef -> Deep set.
+  for (let i = 0; i < result.marks.length; i += 4) rows.push(result.marks.slice(i, i + 4).join(''));
+  // The link at the end makes Discord show the Pleco preview card under the result.
+  const text = `${head} 🐟 ${result.score}/${result.max}\n${rows.join('\n')}\n${location.origin}`;
   try {
     await navigator.clipboard.writeText(text);
     msgEl.className = 'msg ok center';

@@ -1,0 +1,64 @@
+<!doctype html>
+<!-- Source for public/og-image.png (the Discord / social link preview).
+     Re-render with: node tools/render-og.mjs -->
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    position: relative; font-family: 'Pixelify Sans', sans-serif; color: #eaf6f3;
+    background: linear-gradient(#123a52 0 14%, #10334a 14% 28%, #0e2d42 28% 42%, #0c263a 42% 56%, #0b2133 56% 70%, #0a1c2c 70% 84%, #091827 84%);
+  }
+  img { image-rendering: pixelated; display: block; }
+  .rays { position: absolute; inset: 0; background: repeating-linear-gradient(105deg, transparent 0 120px, rgba(120,220,230,.05) 120px 170px); }
+  .sand { position: absolute; left: 0; right: 0; bottom: 0; height: 44px; background: #3a3222; box-shadow: inset 0 8px 0 #4f4430; }
+  .weed { position: absolute; bottom: 44px; width: 10px; background: repeating-linear-gradient(#2a8a5c 0 12px, #1f6b4a 12px 16px); }
+  .bubble { position: absolute; width: 12px; height: 12px; box-shadow: inset 0 0 0 3px rgba(200,240,255,.7); }
+
+  .left { position: absolute; left: 70px; top: 70px; width: 600px; }
+  h1 {
+    font-family: 'Press Start 2P', monospace; font-size: 112px; letter-spacing: 6px; color: #ffd166;
+    text-shadow: 8px 0 0 #b8892c, 0 8px 0 #b8892c, 8px 8px 0 #b8892c, 16px 16px 0 #050d14;
+  }
+  .tag { margin-top: 34px; font-size: 44px; font-weight: 700; color: #2ec4b6; text-shadow: 4px 4px 0 #050d14; }
+  .sub { margin-top: 14px; font-size: 30px; color: #cfe3ea; text-shadow: 3px 3px 0 #050d14; }
+  .hero { position: absolute; right: 40px; top: 40px; width: 470px; filter: drop-shadow(10px 10px 0 rgba(0,0,0,.45)); }
+
+  .tiers { position: absolute; left: 70px; right: 70px; bottom: 74px; display: flex; gap: 22px; }
+  .tier {
+    flex: 1; display: flex; align-items: center; gap: 12px; padding: 12px 14px; background: #050d14;
+    box-shadow: inset 0 0 0 5px var(--c), 7px 7px 0 0 rgba(0,0,0,.5);
+  }
+  .tier img { width: 92px; height: 60px; object-fit: contain; }
+  .tier b { font-family: 'Press Start 2P', monospace; font-size: 15px; color: var(--c); }
+  .tier small { display: block; margin-top: 8px; font-size: 20px; color: #9fc0cf; }
+</style>
+</head>
+<body>
+  <div class="rays"></div>
+  <div class="weed" style="left:40px;height:70px"></div>
+  <div class="weed" style="left:560px;height:50px"></div>
+  <div class="weed" style="left:1120px;height:90px"></div>
+  <div class="bubble" style="left:700px;top:90px"></div>
+  <div class="bubble" style="left:730px;top:150px;width:8px;height:8px"></div>
+  <div class="bubble" style="left:690px;top:210px;width:16px;height:16px"></div>
+  <div class="sand"></div>
+
+  <div class="left">
+    <h1>PLECO</h1>
+    <p class="tag">Think like the school.</p>
+    <p class="sub">The daily survey game: guess what MOST people would say.</p>
+  </div>
+  <img class="hero" src="../public/pleco.png" alt="">
+
+  <div class="tiers">
+    <div class="tier" style="--c:#ffd166"><img src="../public/tiers/pleco.png" alt=""><div><b>PLECO</b><small>Common</small></div></div>
+    <div class="tier" style="--c:#8fb8ff"><img src="../public/tiers/schooler.png" alt=""><div><b>SCHOOLER</b><small>Uncommon</small></div></div>
+    <div class="tier" style="--c:#ff8a5c"><img src="../public/tiers/reef-crab.png" alt=""><div><b>REEF</b><small>Rare</small></div></div>
+    <div class="tier" style="--c:#b892ff"><img src="../public/tiers/deep-angler.png" alt=""><div><b>DEEP</b><small>Epic</small></div></div>
+  </div>
+</body>
+</html>

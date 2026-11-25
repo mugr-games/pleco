@@ -275,6 +275,16 @@ const MIME = {
   '.json': 'application/json', '.woff2': 'font/woff2',
 };
 
+/** This site's public origin, e.g. https://pleco.onrender.com. PUBLIC_URL wins when set. */
+function siteOrigin(req) {
+  if (process.env.PUBLIC_URL) return process.env.PUBLIC_URL.replace(/\/+$/, '');
+  const fwdProto = TRUST_PROXY ? String(req.headers['x-forwarded-proto'] || '').split(',')[0].trim() : '';
+  const fwdHost = TRUST_PROXY ? String(req.headers['x-forwarded-host'] || '').split(',')[0].trim() : '';
+  const proto = fwdProto === 'https' || fwdProto === 'http' ? fwdProto : TRUST_PROXY ? 'https' : 'http';
+  const host = (fwdHost || req.headers.host || 'localhost').replace(/[^a-zA-Z0-9.:\-]/g, ''); // no HTML injection via Host
+  return `${proto}://${host}`;
+}
+
 function send(res, status, data) {
   res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' });
   res.end(JSON.stringify(data));
@@ -325,7 +335,11 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(404, { 'Content-Type': 'text/plain' });
       return res.end('Not found');
     }
-    const data = await readFile(file);
+    let data = await readFile(file);
+    if (file.endsWith('index.html')) {
+      // Link previews need absolute URLs: fill in this site's real address.
+      data = data.toString('utf8').replaceAll('{{ORIGIN}}', siteOrigin(req));
+    }
     res.writeHead(200, { 'Content-Type': MIME[path.extname(file)] || 'application/octet-stream', 'Cache-Control': 'no-cache' });
     res.end(data);
   } catch (err) {
